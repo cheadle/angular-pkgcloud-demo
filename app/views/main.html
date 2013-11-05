@@ -1,0 +1,96 @@
+<div ng-controller="MainCtrl">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="well">
+        <!-- choose provider -->
+        <select data-ng-options="p.name for p in providers" data-ng-model="selectedProvider" data-ng-change="getContainers()" class="selectpicker">
+          <option value="">-- choose provider --</option>
+        </select>
+
+        <!-- choose container -->
+        <select ng-show="containers.length > 0" data-ng-options="c.name for c in containers" data-ng-model="selectedContainer" data-ng-change="onContainerSelected()" class="selectpicker">
+          <option value="">-- choose container --</option>
+        </select>
+      </div>
+
+      <!-- container list -->
+<!--       <div ng-show="selectedContainer.name" class="container-list">
+        <ul>
+          <li ng-repeat="f in files">
+            {{f.name}}
+          </li>
+        </ul>
+      </div> -->
+
+    </div>
+  </div>
+
+  <div ng-show="selectedContainer.name" class="container" ng-animate=" 'animate' ">
+    <div class="row">
+      <div class="col-md-4">
+        <h3>Select files</h3>
+        <!-- Example: ng-file-drop | ng-file-drop="options" -->
+        <div class="well my-drop-zone" ng-file-drop ng-file-over="another-file-over-class">
+            Drop files here
+        </div>
+        <!-- 2. ng-file-select | ng-file-select="options" -->
+        <input ng-file-select type="file" multiple  />
+      </div>
+
+      <div class="col-md-8" style="margin-bottom: 40px">
+        <h3>Upload queue</h3>
+        <p>Queue length: {{ uploader.queue.length }}</p>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="50%">Name</th>
+              <th>Size</th>
+              <th>Progress</th>
+              <th>Ok</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in uploader.queue">
+              <td><strong>{{ item.file.name }}</strong></td>
+              <td nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+              <td>
+                <div class="progress" style="margin-bottom: 0;">
+                  <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                </div>
+              </td>
+              <td>
+                <i class="glyphicon glyphicon-ok" ng-show="item.isUploaded"></i>
+              </td>
+              <td nowrap>
+                <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isUploaded">
+                  <span class="glyphicon glyphicon-upload"></span> Upload
+                </button>
+                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                  <span class="glyphicon glyphicon-trash"></span> Remove
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div>
+          <p>
+            Queue progress:
+            <div class="progress" style="">
+              <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+            </div>
+          </p>
+          <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+            <span class="glyphicon glyphicon-upload"></span> Upload all
+          </button>
+          <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+            <span class="glyphicon glyphicon-trash"></span> Remove all
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
