@@ -1,6 +1,7 @@
 <div ng-controller="MainCtrl">
+
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-md-12">
       <div class="well">
         <!-- choose provider -->
         <select data-ng-options="p.name for p in providers" data-ng-model="selectedProvider" data-ng-change="getContainers()" class="selectpicker">
@@ -12,20 +13,10 @@
           <option value="">-- choose container --</option>
         </select>
       </div>
-
-      <!-- container list -->
-<!--       <div ng-show="selectedContainer.name" class="container-list">
-        <ul>
-          <li ng-repeat="f in files">
-            {{f.name}}
-          </li>
-        </ul>
-      </div> -->
-
     </div>
   </div>
 
-  <div ng-show="selectedContainer.name" class="container" ng-animate=" 'animate' ">
+  <div ng-show="selectedContainer.name" class="check-element animate-show">
     <div class="row">
       <div class="col-md-4">
         <h3>Select files</h3>
